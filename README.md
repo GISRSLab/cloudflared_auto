@@ -10,7 +10,10 @@ Have a good trip!
 You can use it from source:
 ```sh
 git clone https://github.com/DSYZayn/cloudflared_auto
+cd ./cloudflared_auto/client
+go mod tidy
 cd ./cloudflared_auto/cmd
+go mod tidy
 go build -o 'auto register rdp.exe'
 ```
 Then you get a excutable file `auto register rdp.exe`, run it as an administrator.
