@@ -17,5 +17,13 @@ go mod tidy
 go build -o 'auto register rdp.exe'
 ```
 Then you get a excutable file `auto register rdp.exe`, run it as an administrator.
+And you need to put a `.env` file at the same directory with `auto register rdp.exe`.  
+The `.env` file looks like this(example):  
+CLOUDFLARE_API_KEY=xasdfasdf  
+CLOUDFLARE_API_EMAIL=ixvasdf@gmail.com  
+CLOUDFLARE_TUNNEL_ID=vasdkfj-adfnas-fansdlf-asdfn  
+CLOUDFLARE_ACCOUNT_ID=abvckafd3fanks320gadf0  
+CLOUDFLARE_ZONE_ID=bnvaif943qfdg934455j  
+SITE=xxxxx.com  
 
 Or you can download from release.
