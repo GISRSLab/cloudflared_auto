@@ -29,7 +29,7 @@ func installService(name string, desc string, hostname string, app *tview.Applic
 	}
 
 	// 构建服务执行路径
-	execPath := fmt.Sprintf("cloudflared access rdp --hostname %s --url rdp://localhost:%d", hostname, port)
+	execPath := fmt.Sprintf(`C:\Program Files (x86)\cloudflared\cloudflared.exe access rdp --hostname %s --url rdp://localhost:%d`, hostname, port)
 
 	cmd := exec.Command("sc", "create", serviceName, "binpath=", execPath, "start=auto")
 
@@ -71,7 +71,7 @@ func findAvailablePort() (int, error) {
 
 func listService() ([]string, error) {
 	// 创建第一个命令：sc query
-	cmd1 := exec.Command("sc", "query")
+	cmd1 := exec.Command("sc", "query", "type=service", "state=all")
 
 	// 创建第二个命令：findstr /R "cloudflared-"
 	cmd2 := exec.Command("findstr", "/R", "cloudflared-")
@@ -126,14 +126,17 @@ func listService() ([]string, error) {
 
 }
 
-func deleteService(name string) error {
+func deleteService(name string, logview *tview.TextView) error {
 	cmd1 := exec.Command("sc", "stop", name)
 	err1 := cmd1.Run()
 	if err1 != nil {
 		if err1.Error() == "exit status 5" {
 			return errors.New("可能是由于权限问题导致错误，请用管理员权限运行软件, exit status 5")
+		} else if err1.Error() == "exit status 1062" {
+			fmt.Fprintf(logview, "The service %s has been stopped. Continue...\n", name)
+		} else {
+			return err1
 		}
-		return err1
 	}
 
 	cmd2 := exec.Command("sc", "delete", name)

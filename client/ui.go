@@ -232,7 +232,7 @@ func StartApp(data []cloudflare.UnvalidatedIngressRule, api *cloudflare.API, ctx
 					service_list.Clear().AddItem("返回[Back]", "", 'q', func() {})
 					for i, service := range list_service {
 						service_list.AddItem(service, "", rune('1'+i), func() {
-							err := deleteService(service)
+							err := deleteService(service, service_textview)
 							if err != nil {
 								go func() {
 									app.QueueUpdateDraw(func() {
